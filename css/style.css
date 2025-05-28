@@ -1,46 +1,51 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    /* background-color: #131415;*/
-    margin: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+  /* background-color: #131415;*/
+  margin: 0px;
 }
 
 .title-bar {
-    background-color: #131415;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+  background-color: #131415;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #page-title {
-    color: purple;
+  color: purple;
 }
 
 a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .page-content {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 td {
-    border: purple double;
+  border: purple double;
 }
 
 .page {
-    background-image: linear-gradient(-45deg, rgba(46, 34, 171, .7), rgba(208, 71, 159, .7), rgba(10, 114, 151, .7), rgba(231, 60, 126, .7));
-    height: 100vh;
-    font-size: 1rem;
+  background-image: linear-gradient(
+    -45deg,
+    rgba(46, 34, 171, 0.7),
+    rgba(208, 71, 159, 0.7),
+    rgba(10, 114, 151, 0.7),
+    rgba(231, 60, 126, 0.7)
+  );
+  background-size: cover;
+  font-size: 1rem;
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
-    background-color: white;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+  position: fixed;
+  bottom: 0;
+  background-color: white;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
