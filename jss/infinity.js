@@ -2,7 +2,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('infinity-logo-layer').addEventListener('mouseover', (evt) => {
         const svgns = 'http://www.w3.org/2000/svg';
 
-        if (evt.target.classList.contains('infinity-link') && document.getElementById('infinity-svg-layer-2')?.querySelector(`#${evt.target.id}-information`) == null) {
+        if (evt.target.classList.contains('infinity-link') && (document.getElementById('infinity-svg-layer-2')?.querySelector(`#${evt.target.id}-information`) == null && document.getElementById('infinity-svg-layer-2')?.querySelector(`#${evt.target.id}-information-right`) == null && document.getElementById('infinity-svg-layer-2')?.querySelector(`#${evt.target.id}-information-center`) == null )) {
             displayInformationBox(evt);
         }
         else if (!evt.target.classList.contains('infinity-link') && !evt.target.classList.contains('infinity-info')) {
