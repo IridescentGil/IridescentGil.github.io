@@ -1,17 +1,25 @@
+const INFINITY_LOGO_LINK_ADRESS_MAP = new Map([
+    ['it-demand-and-service-management', 'https://www.google.com'],
+    ['system-and-process-assurance', 'https://www.google.com'],
+    ['financial-services-and-payment-processing', 'https://www.google.com'],
+    ['human-capital-management', 'https://www.google.com'],
+    ['data-analytics-and-reporting', 'https://www.google.com'],
+    ['digital-tranformation-and-enablement', 'https://www.google.com'],
+    ['consumer-and-enterprise-vetting', 'https://www.google.com'],
+    ['contact-centre', 'https://www.google.com'],
+    ['consumer-enterprise-and-collections', 'https://www.google.com'],
+    ['billing-management', 'https://www.google.com'],
+],
+);
+
 window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('infinity-logo-layer').
         addEventListener('mouseover', (evt) => {
             const svgns = 'http://www.w3.org/2000/svg';
 
             if (evt.target.classList.contains('infinity-link') &&
-                (document.getElementById('infinity-svg-layer-2')?.
-                    querySelector(`#${evt.target.id}-information`) == null &&
-                    document.getElementById('infinity-svg-layer-2')?.
-                        querySelector(`#${evt.target.id}-information-right`) ==
-                        null &&
-                    document.getElementById('infinity-svg-layer-2')?.
-                        querySelector(`#${evt.target.id}-information-center`) ==
-                        null )) {
+                document.getElementById('infinity-information-layer')?.
+                    querySelector(`#${evt.target.id}-information`) == null ) {
                 displayInformationBox(evt);
             } else if (!evt.target.classList.contains('infinity-link') &&
                 !evt.target.classList.contains('infinity-info')) {
@@ -25,7 +33,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 animationFade.setAttribute('fill', 'freeze');
 
                 const infinityinformationLayer =
-                document.getElementById('infinity-svg-layer-2');
+                document.getElementById('infinity-information-layer');
                 if (infinityinformationLayer) {
                     infinityinformationLayer.prepend(animationFade);
                     document.getElementById('infinity-info-fadeaout').beginElement();
@@ -38,31 +46,18 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function displayInformationBox(evt) {
-    document.getElementById('infinity-svg-layer-2')?.remove();
+    document.getElementById('infinity-information-layer')?.remove();
 
     const linkId = evt.target.id;
-    const linkAdressArray = new Map([
-        ['it-demand-and-service-management', 'https://www.google.com'],
-        ['system-and-process-assurance', 'https://www.google.com'],
-        ['financial-services-and-payment-processing', 'https://www.google.com'],
-        ['human-capital-management', 'https://www.google.com'],
-        ['data-analytics-and-reporting', 'https://www.google.com'],
-        ['digital-tranformation-and-enablement', 'https://www.google.com'],
-        ['consumer-and-enterprise-vetting', 'https://www.google.com'],
-        ['contact-centre', 'https://www.google.com'],
-        ['consumer-enterprise-and-collections', 'https://www.google.com'],
-        ['billing-management', 'https://www.google.com'],
-    ],
-    );
 
-    const linkAdress = linkAdressArray.get(linkId);
+    const linkAdress = INFINITY_LOGO_LINK_ADRESS_MAP.get(linkId);
 
     const infinityInformationLayer = createInformationBox(evt, linkId, linkAdress);
 
     document.getElementById('infinity-logo-layer').append(infinityInformationLayer);
 
-    const animations = document.getElementById('infinity-svg-layer-2')
-        .getElementsByTagName('animate');
+    const animations = document.getElementById('infinity-information-layer')
+    .getElementsByTagName('animate');
 
     for (let i = 0; i < animations.length; i++) {
         animations[i].beginElement();
@@ -73,7 +68,7 @@ function displayInformationBox(evt) {
 function createInformationBox(evt, linkId, linkAdress) {
     const svgns = 'http://www.w3.org/2000/svg';
     const infinityInformationLayer = document.createElementNS(svgns, 'g');
-    infinityInformationLayer.setAttribute('id', 'infinity-svg-layer-2');
+    infinityInformationLayer.setAttribute('id', 'infinity-information-layer');
 
     const infinityLogoTextStyle =
     window.getComputedStyle(document.getElementById(evt.target.id));
@@ -86,88 +81,43 @@ function createInformationBox(evt, linkId, linkAdress) {
     // Apply tranform scale to height and with to
     // allow the removal of tranform attribute for consistent placement
     const INFORMATION_BOX_TRANSFORMATION_SCALE = 0.24;
-    const INFORMATION_BOX_TRANSFORMATION_SCALE_SMALL = 0.34;
-    // Offsets to position elements properly
-    let INFORMATION_BOX_X_OFFSET = 30;
-    let INFORMATION_BOX_Y_OFFSET = 25;
-    const READ_MORE_BACKGROUND_Y_OFFSET = 12;
-    const READ_MORE_TEXT_Y_OFFSET = 19;
-    const READ_MORE_BACKGROUND_X_OFFSET = 14;
-    const READ_MORE_TEXT_X_OFFSET = 21;
+    // Offset to position elements properly
+    const INFORMATION_BOX_X_OFFSET = 30;
 
-    let informationBox;
-    if (window.location.hash === '#center' ||
-        window.location.hash === '#right') {
-        const hash = window.location.hash.substring(1);
-        informationBox = document.getElementById(linkId + '-information-' + hash)
-            .cloneNode(true);
-    } else {
-        informationBox = document.getElementById(linkId + '-information-right')
-            .cloneNode(true);
-    }
-    // if (window.location.hash === '#center') {
-    //     INFORMATION_BOX_Y_OFFSET = (parseFloat(document.
-    //         getElementById(evt.target.id).getAttribute('height')) *
-    //         parseFloat(infinityLogoTextStyle.getPropertyValue('--scale')));
-    //     if (parseFloat(window.innerWidth) < 550) {
-    //         INFORMATION_BOX_X_OFFSET = (
-    //             parseFloat(informationBox.getAttribute('width')) *
-    //                 INFORMATION_BOX_TRANSFORMATION_SCALE_SMALL / 2.0) -
-    //             ((parseFloat(document.getElementById(evt.target.id).
-    //                 getAttribute('width')) * parseFloat(infinityLogoTextStyle.
-    //                 getPropertyValue('--scale'))) / 2.0) + 3;
-    //     } else {
-    //         INFORMATION_BOX_X_OFFSET = (
-    //             parseFloat(informationBox.getAttribute('width')) *
-    //                 INFORMATION_BOX_TRANSFORMATION_SCALE / 2.0) -
-    //             ((parseFloat(document.getElementById(evt.target.id).
-    //                 getAttribute('width')) *
-    //                 parseFloat(infinityLogoTextStyle.
-    //                     getPropertyValue('--scale'))) / 2.0) + 3;
-    //     }
-    // }
+    const informationBoxYOffset = yPositionInfinityLogoText + 
+        (parseFloat(evt.target.getAttribute('height') *
+            parseFloat(infinityLogoTextStyle.getPropertyValue('--scale'))));
+
+    let informationBox = document.getElementById(linkId + '-information')
+    .cloneNode(true);
     informationBox.setAttribute('class', 'infinity-info');
     informationBox.setAttribute('x',
         xPositionInfinityLogoText - INFORMATION_BOX_X_OFFSET);
-    informationBox.setAttribute('y',
-        yPositionInfinityLogoText + INFORMATION_BOX_Y_OFFSET);
+    informationBox.setAttribute('y', informationBoxYOffset);
     informationBox.setAttribute('opacity', '0');
-    if (parseFloat(window.innerWidth) < 550) {
-        informationBox.setAttribute('height', informationBox.getAttribute('height') *
-            INFORMATION_BOX_TRANSFORMATION_SCALE_SMALL);
-        informationBox.setAttribute('width', informationBox.getAttribute('width') *
-            INFORMATION_BOX_TRANSFORMATION_SCALE_SMALL);
-        informationBox.removeAttribute('transform');
-    } else {
-        informationBox.setAttribute('height', informationBox.getAttribute('height') *
-            INFORMATION_BOX_TRANSFORMATION_SCALE);
-        informationBox.setAttribute('width', informationBox.getAttribute('width') *
-            INFORMATION_BOX_TRANSFORMATION_SCALE);
-        informationBox.removeAttribute('transform');
-    }
+    informationBox.setAttribute('height', informationBox.getAttribute('height') *
+        INFORMATION_BOX_TRANSFORMATION_SCALE);
+    informationBox.setAttribute('width', informationBox.getAttribute('width') *
+        INFORMATION_BOX_TRANSFORMATION_SCALE);
+    informationBox.removeAttribute('transform');
 
-    const informationBoxHeight = parseFloat(informationBox.getAttribute('height'));
-    // const yPositionReadMoreBackground = informationBoxHeight +
-    //     yPositionInfinityLogoText + READ_MORE_BACKGROUND_Y_OFFSET;
-    // const yPositionReadMoreText = informationBoxHeight +
-    //     yPositionInfinityLogoText + READ_MORE_TEXT_Y_OFFSET;
-    //
-    // const readMoreBackground = document.getElementById('read-more-background')
-    //     .cloneNode(true);
-    // readMoreBackground.setAttribute('class', 'cls-1 infinity-info');
-    // readMoreBackground.setAttribute('x',
-    //     parseFloat(informationBox.getAttribute('x')) + (parseFloat(informationBox.getAttribute('width')/ 2) -( parseFloat(readMoreBackground.getAttribute('width')) / 2)));
-    // readMoreBackground.setAttribute('y', yPositionReadMoreBackground);
-    // readMoreBackground.setAttribute('opacity', '0');
-    //
-    // const readMoreText = document.getElementById('read-more-text')
-    //     .cloneNode(true);
-    // readMoreText.setAttribute('class', 'cls-4 infinity-info');
-    // readMoreText.setAttribute('x',
-    //     xPositionInfinityLogoText + READ_MORE_TEXT_X_OFFSET);
-    // readMoreText.setAttribute('y', yPositionReadMoreText);
-    // readMoreText.setAttribute('opacity', '0');
-    // readMoreText.removeAttribute('transform');
+    const readMoreButton = document.getElementById('infinity-read-more-svg')
+    .cloneNode(true);
+    readMoreButton.setAttribute('class', 'cls-1 infinity-info');
+    readMoreButton.setAttribute('height', readMoreButton.getAttribute('height') *
+        INFORMATION_BOX_TRANSFORMATION_SCALE);
+    readMoreButton.setAttribute('width', readMoreButton.getAttribute('width') *
+        INFORMATION_BOX_TRANSFORMATION_SCALE);
+    readMoreButton.setAttribute('x',
+        parseFloat(informationBox.getAttribute('x')) +
+            (parseFloat(informationBox.getAttribute('width')/ 2) -
+                (parseFloat(readMoreButton.getAttribute('width')) / 2)));
+    readMoreButton.setAttribute('y', 
+        (parseFloat(informationBox.getAttribute('y')) +
+            (parseFloat(informationBox.getAttribute('height')) -
+                (parseFloat(readMoreButton.getAttribute('height')))) - 5));
+    readMoreButton.setAttribute('opacity', '0');
+    readMoreButton.removeAttribute('transform');
 
     const animationFadeIn = document.createElementNS(svgns, 'animate');
     animationFadeIn.setAttribute('attributeName', 'opacity');
@@ -177,18 +127,15 @@ function createInformationBox(evt, linkId, linkAdress) {
     animationFadeIn.setAttribute('to', '1');
     animationFadeIn.setAttribute('fill', 'freeze');
 
-    const link = document.createElementNS(svgns, 'a');
-    link.setAttribute('href', linkAdress);
-    link.append(informationBox);
-    // link.append(readMoreBackground);
-    // link.append(readMoreText);
-    //
-    // readMoreBackground.append(animationFadeIn.cloneNode(true));
-    // readMoreText.append(animationFadeIn.cloneNode(true));
+    const readMoreLink = document.createElementNS(svgns, 'a');
+    readMoreLink.setAttribute('href', linkAdress);
+    readMoreLink.append(readMoreButton);
+
+    readMoreButton.append(animationFadeIn.cloneNode(true));
     informationBox.append(animationFadeIn);
 
-    // infinityInformationLayer.append(informationBox);
-    infinityInformationLayer.append(link);
+    infinityInformationLayer.append(informationBox);
+    infinityInformationLayer.append(readMoreLink);
 
     return infinityInformationLayer;
 }
