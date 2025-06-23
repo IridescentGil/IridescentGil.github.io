@@ -15,31 +15,17 @@ const INFINITY_LOGO_LINK_ADRESS_MAP = new Map([
 window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('infinity-logo-layer').
         addEventListener('mouseover', (evt) => {
-            const svgns = 'http://www.w3.org/2000/svg';
-
             if (evt.target.classList.contains('infinity-link') &&
                 document.getElementById('infinity-information-layer')?.
                     querySelector(`#${evt.target.id}-information`) == null ) {
                 displayInformationBox(evt);
             } else if (!evt.target.classList.contains('infinity-link') &&
                 !evt.target.classList.contains('infinity-info')) {
-                const animationFade = document.createElementNS(svgns, 'animate');
-                animationFade.setAttribute('id', 'infinity-info-fadeaout');
-                animationFade.setAttribute('attributeName', 'opacity');
-                animationFade.setAttribute('begin', 'indefinite');
-                animationFade.setAttribute('dur', '0.2s');
-                animationFade.setAttribute('from', '1');
-                animationFade.setAttribute('to', '0');
-                animationFade.setAttribute('fill', 'freeze');
 
                 const infinityinformationLayer =
                 document.getElementById('infinity-information-layer');
                 if (infinityinformationLayer) {
-                    infinityinformationLayer.prepend(animationFade);
-                    document.getElementById('infinity-info-fadeaout').beginElement();
-                    setTimeout(() => {
-                        infinityinformationLayer.remove();
-                    }, 200);
+                    infinityinformationLayer.remove();
                 }
             }
         });
@@ -119,20 +105,12 @@ function createInformationBox(evt, linkId, linkAdress) {
     readMoreButton.setAttribute('opacity', '0');
     readMoreButton.removeAttribute('transform');
 
-    const animationFadeIn = document.createElementNS(svgns, 'animate');
-    animationFadeIn.setAttribute('attributeName', 'opacity');
-    animationFadeIn.setAttribute('begin', 'indefinite');
-    animationFadeIn.setAttribute('dur', '0.5s');
-    animationFadeIn.setAttribute('from', '0');
-    animationFadeIn.setAttribute('to', '1');
-    animationFadeIn.setAttribute('fill', 'freeze');
-
     const readMoreLink = document.createElementNS(svgns, 'a');
     readMoreLink.setAttribute('href', linkAdress);
     readMoreLink.append(readMoreButton);
 
-    readMoreButton.append(animationFadeIn.cloneNode(true));
-    informationBox.append(animationFadeIn);
+    readMoreButton.classList.add('fade-in');
+    informationBox.classList.add('fade-in');
 
     infinityInformationLayer.append(informationBox);
     infinityInformationLayer.append(readMoreLink);
